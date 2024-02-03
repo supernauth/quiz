@@ -1,42 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz Editor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-</head>
-<body class="px-3 py-2 bg-light bg-gradient">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="px-3 py-2 bg-light bg-gradient">
     <h1>Quiz Editor</h1>
     <h3>Questions</h3>
-    <table class="table table-striped table-bordered border-secondary table-sm" style="width: 50%;">
-        <tr>
-            <th>Mod</th>
-            <th>Question</th>
-            <th>Option 1</th>
-            <th>Option 2</th>
-            <th>Option 3</th>
-            <th>Option 4</th>
-            <th>Answer</th>
-        </tr>
-        {% for question in questions %}
-        <tr>
-            <td align="right"><a href="question/update/{{ question.id }}">Edit</a></td>
-            <td rowspan=2>{{ question.question_text }}</td>
-            <td rowspan=2>{{ question.option1 }}</td>
-            <td rowspan=2>{{ question.option2 }}</td>
-            <td rowspan=2>{{ question.option3 }}</td>
-            <td rowspan=2>{{ question.option4 }}</td>
-            <td rowspan=2>{{ question.correct_option }}</td>
-        </tr>
-        <tr>
-            <td align="right"><a href="question/delete/{{ question.id }}">Delete</a></td>
-        </tr>
-        {% endfor %}
+    <table
+      class="table table-striped table-bordered border-secondary table-sm"
+      style="width: 50%"
+    >
+      <tr>
+        <th>Mod</th>
+        <th>Question</th>
+        <th>Option 1</th>
+        <th>Option 2</th>
+        <th>Option 3</th>
+        <th>Option 4</th>
+        <th>Answer</th>
+      </tr>
+      {% for question in questions %}
+      <tr>
+        <td align="right">
+          <a href="question/update/{{ question.id }}">Edit</a>
+        </td>
+        <td rowspan="2">{{ question.question_text }}</td>
+        <td rowspan="2">{{ question.option1 }}</td>
+        <td rowspan="2">{{ question.option2 }}</td>
+        <td rowspan="2">{{ question.option3 }}</td>
+        <td rowspan="2">{{ question.option4 }}</td>
+        <td rowspan="2">{{ question.correct_option }}</td>
+      </tr>
+      <tr>
+        <td align="right">
+          <a href="question/delete/{{ question.id }}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
     </table>
     <p>
-        <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='question/add'">Add Question</button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        onclick="window.location.href='question/add'"
+      >
+        Add Question
+      </button>
     </p>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
