@@ -29,7 +29,7 @@ def start_quiz():
     # Iterate through the questions
     for question in questions:
         # Display the question in a popup window
-        answer = simpledialog.askstring("Question", question[1])
+        answer = simpledialog.askstring("Question", question[-1])
 
         # Insert the user's answer into the UserAnswer table
         cursor.execute(
