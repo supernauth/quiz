@@ -34,7 +34,7 @@ def update_question(request, id):
     )
 
 
-def update_question_reqord(request, id):
+def update_question_record(request, id):
     question = Question.objects.get(id=id)
     question.question_text = request.POST.get("quesiton_text")
     question.option1 = request.POST.get("option1")
