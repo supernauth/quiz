@@ -11,39 +11,46 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body class="px-3 py-2 bg-light bg-gradient">
     <h1>{% if question %} Edit {% else %} Add {% endif %} Question</h1>
     <br />
     <form class="row g-3" action={% if question %} "updaterecord/{{ question.id }}" {% else %} "addrecord" {% endif %} method="post">
         {% csrf_token %}
-        <div class="row-auto">
+        <div class="row-auto col-sm-6">
             <label class="form-label">Question:</label>
-            <input class="form-control" type="text" name="question_text" {% if type %} value="{{ question.question_text }}" {% endif %}>
+            <input class="form-control" type="text" name="question_text" {% if question %} value="{{ question.question_text }}" {% endif %}>
         </div>
-        <div class="row-auto">
+        <br>
+        <div class="row-auto col-sm-6">
             <label class="form-label">Option1:</label>
-            <input class="form-control" type="text" name="option1" {% if type %} value="{{ question.option1 }}" {% endif %}>
+            <input class="form-control" type="text" name="option1" {% if question %} value="{{ question.option1 }}" {% endif %}>
         </div>
-        <div class="row-auto">
+        <br>
+        <div class="row-auto col-sm-6">
             <label class="form-label">Option2:</label>
-            <input class="form-control" type="text" name="option2" {% if type %} value="{{ question.option2 }}" {% endif %}>
+            <input class="form-control" type="text" name="option2" {% if question %} value="{{ question.option2 }}" {% endif %}>
         </div>
-        <div class="row-auto">
+        <br>
+        <div class="row-auto col-sm-6">
             <label class="form-label">Option3:</label>
-            <input class="form-control" type="text" name="option3" {% if type %} value="{{ question.option3 }}" {% endif %}>
+            <input class="form-control" type="text" name="option3" {% if question %} value="{{ question.option3 }}" {% endif %}>
         </div>
-        <div class="row-auto">
+        <br>
+        <div class="row-auto col-sm-6">
             <label class="form-label">Option4:</label>
-            <input class="form-control" type="text" name="option4" {% if type %} value="{{ question.option4 }}" {% endif %}>
+            <input class="form-control" type="text" name="option4" {% if question %} value="{{ question.option4 }}" {% endif %}>
         </div>
-        <div>
-            <label class="form-label">Answer:</label>
-            <select class="form-select" name="answer">
-                <option value={{ question.correct_option }}>1</option>
-                <option value={{ question.correct_option }}>2</option>
-                <option value={{ question.correct_option }}>3</option>
-                <option value={{ question.correct_option }}>4</option>
-            </select>
+        <br>
+        <br>
+        <p>
+        <div class="col-sm-2">
+            <label class="form-label">Correct Option:</label>
+            <input class="form-control" type="text" name="correct_option" {% if question %} value="{{ question.correct_option }}" {% endif %}>
+        </div>
+    </p>
+        <br>
+        <div class="row-auto">
+            <input type="submit" class="btn btn-outline-secondary" value={% if question %} "Edit" {% else %} "Add" {% endif %}>
         </div>
     </form>
     <script
