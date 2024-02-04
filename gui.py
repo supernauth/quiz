@@ -33,13 +33,13 @@ def start_quiz():
 
         # Insert the user's answer into the UserAnswer table
         cursor.execute(
-            "INSERT INTO quiz_app_useranswer (user_id, question_id, chosen_option) VALUES (?, ?, ?)",
-            (1, question[0], answer),
+            "INSERT INTO quiz_app_useranswer (user_id, question_id, chosen_option, is_correct) VALUES (?, ?, ?, ?)",
+            (1, question[0], answer, False),  # Assuming user_id is 1 for simplicity
         )  # Assuming user_id is 1 for simplicity
         conn.commit()
 
         # Check if the answer is correct and update the UserAnswer table accordingly
-        is_correct = answer == question[6]
+        is_correct = answer == question[1]
         cursor.execute(
             "UPDATE quiz_app_useranswer SET is_correct = ? WHERE user_id = ? AND question_id = ?",
             (is_correct, 1, question[0]),
