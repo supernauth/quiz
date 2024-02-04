@@ -17,10 +17,6 @@ def add_question(request):
 def add_question_record(request):
     Question(
         question_text=request.POST.get("question_text"),
-        option1=request.POST.get("option1"),
-        option2=request.POST.get("option2"),
-        option3=request.POST.get("option3"),
-        option4=request.POST.get("option4"),
         correct_option=request.POST.get("correct_option"),
     ).save()
     return HttpResponseRedirect(reverse("index"))
@@ -37,10 +33,6 @@ def update_question(request, id):
 def update_question_record(request, id):
     question = Question.objects.get(id=id)
     question.question_text = request.POST.get("question_text")
-    question.option1 = request.POST.get("option1")
-    question.option2 = request.POST.get("option2")
-    question.option3 = request.POST.get("option3")
-    question.option4 = request.POST.get("option4")
     question.correct_option = request.POST.get("correct_option")
     question.save()
     return HttpResponseRedirect(reverse("index"))

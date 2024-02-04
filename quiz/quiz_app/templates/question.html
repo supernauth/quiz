@@ -18,29 +18,8 @@
         {% csrf_token %}
         <div class="row-auto col-sm-6">
             <label class="form-label">Question:</label>
-            <input class="form-control" type="text" name="question_text" {% if question %} value="{{ question.question_text }}" {% endif %}>
+            <textarea class="form-control" name="question_text" rows="6" cols="50">{% if question %}{{ question.question_text }}{% endif %}</textarea>
         </div>
-        <br>
-        <div class="row-auto col-sm-6">
-            <label class="form-label">Option1:</label>
-            <input class="form-control" type="text" name="option1" {% if question %} value="{{ question.option1 }}" {% endif %}>
-        </div>
-        <br>
-        <div class="row-auto col-sm-6">
-            <label class="form-label">Option2:</label>
-            <input class="form-control" type="text" name="option2" {% if question %} value="{{ question.option2 }}" {% endif %}>
-        </div>
-        <br>
-        <div class="row-auto col-sm-6">
-            <label class="form-label">Option3:</label>
-            <input class="form-control" type="text" name="option3" {% if question %} value="{{ question.option3 }}" {% endif %}>
-        </div>
-        <br>
-        <div class="row-auto col-sm-6">
-            <label class="form-label">Option4:</label>
-            <input class="form-control" type="text" name="option4" {% if question %} value="{{ question.option4 }}" {% endif %}>
-        </div>
-        <br>
         <br>
         <p>
         <div class="col-sm-2">
