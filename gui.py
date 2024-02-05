@@ -58,6 +58,12 @@ def start_quiz():
         )
         conn.commit()
 
+        # Display the result to the user
+        messagebox.showinfo(
+            "Result",
+            f"Your answer for the question is {'correct' if is_correct else 'incorrect'}",
+        )
+
 
 # Create and pack widgets
 username_label = tk.Label(root, text="Enter your username:")
