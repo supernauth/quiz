@@ -58,11 +58,20 @@ def start_quiz():
         )
         conn.commit()
 
-        # Display the result to the user
-        messagebox.showinfo(
-            "Result",
-            f"Your answer for the question is {'correct' if is_correct else 'incorrect'}",
-        )
+        # Accumulate the results in a string
+        result_string = ""
+
+        # Add the question and result to the result string
+        result_string += f"{question[-1]}\nYour answer was {'correct' if is_correct else 'incorrect'}"
+
+        # Include the correct answer only when the user's answer is incorrect
+        if not is_correct:
+            result_string += f", the correct answer was: {question[1]}"
+
+        result_string += "\n"
+
+        # Display the accumulated results to the user
+        messagebox.showinfo("Question and Result:", result_string)
 
 
 # Create and pack widgets
