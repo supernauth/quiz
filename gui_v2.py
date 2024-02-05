@@ -1,23 +1,21 @@
-import os
-import django
 import tkinter as tk
-from tkinter import simpledialog
-from django.db import models
-
-# Set the Django settings module before importing models
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "quiz.quiz.settings")
-django.setup()
-
-# Now you can import your models
-from quiz.quiz_app.models import (
-    User,
-    Question,
-    UserAnswer,
-)  # Adjust the import based on your app structure
+from tkinter import messagebox
+import sqlite3
 
 # Create the main Tkinter window
 root = tk.Tk()
 root.title("Quiz App")
+
+# Database connection
+conn = sqlite3.connect("quiz/db.sqlite3")
+cursor = conn.cursor()
+
+# Sample questions for testing
+questions = [
+    ("What is the capital of France?", "B"),
+    ("What is the largest planet in our solar system?", "A"),
+    ("Which programming language is this quiz written in?", "C"),
+]
 
 
 # Function to start the quiz
@@ -26,24 +24,56 @@ def start_quiz():
     username = username_entry.get()
 
     # Insert the username into the User table
-    user = User.objects.create(username=username)
+    cursor.execute("INSERT INTO quiz_app_user (username) VALUES (?)", (username,))
+    conn.commit()
 
-    # Retrieve questions from the Question table
-    questions = Question.objects.all()
+    # Fetch the user's ID
+    cursor.execute("SELECT id FROM quiz_app_user WHERE username = ?", (username,))
+    user_id = cursor.fetchone()[0]
 
-    # Iterate through the questions
-    for question in questions:
-        # Display the question in a popup window
-        answer = simpledialog.askstring("Question", question.question_text)
+    for question_text, correct_option in questions:
+        # Display the question and options with buttons
+        answer = ask_question(question_text, ["A", "B", "C", "D"])
 
         # Insert the user's answer into the UserAnswer table
-        user_answer = UserAnswer.objects.create(
-            user=user, question=question, chosen_option=answer
+        cursor.execute(
+            "INSERT INTO quiz_app_useranswer (user_id, question_id, chosen_option, is_correct) VALUES (?, ?, ?, ?)",
+            (user_id, 0, answer, answer == correct_option),
+        )
+        conn.commit()
+
+        # Display the result to the user
+        messagebox.showinfo(
+            "Result",
+            f"Your answer for the question is {'correct' if answer == correct_option else 'incorrect'}",
         )
 
-        # Check if the answer is correct and update the UserAnswer table accordingly
-        user_answer.is_correct = answer == question.correct_option
-        user_answer.save()
+
+def ask_question(question_text, options):
+    answer = ""
+
+    # Function to set the answer variable when a button is clicked
+    def set_answer(option):
+        nonlocal answer
+        answer = option
+        root.quit()
+
+    # Display the question
+    tk.Label(root, text=question_text).pack()
+
+    # Create buttons for each option, aligned horizontally
+    for option in options:
+        button = tk.Button(root, text=option, command=lambda o=option: set_answer(o))
+        button.pack(side=tk.LEFT, padx=5)
+
+    # Wait for the user to click a button
+    root.mainloop()
+
+    # Clear the window for the next question
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    return answer
 
 
 # Create and pack widgets
@@ -58,3 +88,6 @@ start_button.pack()
 
 # Start the Tkinter event loop
 root.mainloop()
+
+# Close the database connection when the program ends
+conn.close()

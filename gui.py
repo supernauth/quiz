@@ -18,9 +18,16 @@ def start_quiz():
     # Get the username from the entry widget
     username = username_entry.get()
 
+    # Close the entire Tkinter window
+    root.destroy()
+
     # Insert the username into the User table
     cursor.execute("INSERT INTO quiz_app_user (username) VALUES (?)", (username,))
     conn.commit()
+
+    # Fetch the user's ID
+    cursor.execute("SELECT id FROM quiz_app_user WHERE username = ?", (username,))
+    user_id = cursor.fetchone()[0]
 
     # Retrieve questions from the Question table
     cursor.execute("SELECT * FROM quiz_app_question")
@@ -34,16 +41,21 @@ def start_quiz():
         # Insert the user's answer into the UserAnswer table
         cursor.execute(
             "INSERT INTO quiz_app_useranswer (user_id, question_id, chosen_option, is_correct) VALUES (?, ?, ?, ?)",
-            (1, question[0], answer, False),  # Assuming user_id is 1 for simplicity
-        )  # Assuming user_id is 1 for simplicity
+            (
+                user_id,
+                question[0],
+                answer,
+                False,
+            ),
+        )
         conn.commit()
 
         # Check if the answer is correct and update the UserAnswer table accordingly
         is_correct = answer == question[1]
         cursor.execute(
             "UPDATE quiz_app_useranswer SET is_correct = ? WHERE user_id = ? AND question_id = ?",
-            (is_correct, 1, question[0]),
-        )  # Assuming user_id is 1 for simplicity
+            (is_correct, user_id, question[0]),
+        )
         conn.commit()
 
 
