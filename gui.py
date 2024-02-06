@@ -4,8 +4,10 @@ import sqlite3
 
 # Create the main Tkinter window
 root = tk.Tk()
-root.geometry("200x100")
+root.geometry("250x125")
 root.title("Quiz App")
+root.configure(bg="lightgrey")
+font_style = ("Verdana", 14, "normal")
 
 # Database connection
 conn = sqlite3.connect("quiz/db.sqlite3")
@@ -34,22 +36,28 @@ def start_quiz():
 
     # Iterate through the questions
     for question in questions:
-        # Display the question in a popup window
-        answer = simpledialog.askstring("Question", question[-1])
+        # Initialize the answer variable
+        answer = ""
 
-        # Check if the user canceled the dialog
-        if answer is None:
-            messagebox.showinfo("Quiz App", "Quiz cancelled.")
-            conn.close()
-            return
+        # Keep asking the question until a valid answer is provided
+        while True:
+            # Display the question in a popup window
+            answer = simpledialog.askstring("Question", question[-1])
 
-        # Check if the answer is not empty and is one of A, B, C, or D
-        if answer.upper() not in ["A", "B", "C", "D"]:
+            # Check if the user canceled the dialog
+            if answer is None:
+                messagebox.showinfo("Quiz App", "Quiz cancelled.")
+                conn.close()
+                return
+
+            # Check if the answer is not empty and is one of A, B, C, or D
+            if answer.upper() in ["A", "B", "C", "D"]:
+                break  # Break the loop if a valid answer is provided
+
+            # Inform the user about the invalid answer
             messagebox.showwarning(
                 "Invalid Answer", "Please choose one of the options A, B, C, or D."
             )
-            conn.close()
-            return
 
         # Convert the answer to uppercase
         answer = answer.upper()
@@ -95,13 +103,15 @@ def start_quiz():
 
 
 # Create and pack widgets
-username_label = tk.Label(root, text="Enter your username:")
+username_label = tk.Label(
+    root, text="Enter your username:", font=font_style, bg="lightgrey"
+)
 username_label.pack()
 
-username_entry = tk.Entry(root)
+username_entry = tk.Entry(root, font=font_style)
 username_entry.pack()
 
-start_button = tk.Button(root, text="Start Quiz", command=start_quiz)
+start_button = tk.Button(root, text="Start Quiz", command=start_quiz, font=font_style)
 start_button.pack()
 
 # Start the Tkinter event loop
