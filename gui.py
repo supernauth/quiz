@@ -6,8 +6,8 @@ import sqlite3
 root = tk.Tk()
 root.geometry("250x125")
 root.title("Quiz App")
-root.configure(bg="lightgrey")
-font_style = ("Verdana", 14, "normal")
+root.configure(bg="#e3e5e7")
+font_style = ("Verdana", 13, "normal")
 
 # Database connection
 conn = sqlite3.connect("quiz/db.sqlite3")
@@ -104,7 +104,7 @@ def start_quiz():
 
 # Create and pack widgets
 username_label = tk.Label(
-    root, text="Enter your username:", font=font_style, bg="lightgrey"
+    root, text="Enter your username:", font=font_style, bg="#e3e5e7"
 )
 username_label.pack()
 
