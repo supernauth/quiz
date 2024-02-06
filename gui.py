@@ -1,8 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
-from tkinter.constants import END
 import sqlite3
-from django.db import models
 
 # Create the main Tkinter window
 root = tk.Tk()
@@ -15,10 +13,10 @@ cursor = conn.cursor()
 
 # Function to start the quiz
 def start_quiz():
-    # Get the username from the entry widget
+    # Get the username
     username = username_entry.get()
 
-    # Close the entire Tkinter window
+    # Close the name entry window
     root.destroy()
 
     # Insert the username into the User table
@@ -58,20 +56,22 @@ def start_quiz():
         )
         conn.commit()
 
-        # Accumulate the results in a string
+        # Add the results in a string
         result_string = ""
 
         # Add the question and result to the result string
-        result_string += f"{question[-1]}\nYour answer was {'correct' if is_correct else 'incorrect'}"
+        result_string += f"{question[-1]}\nYour answer was {'correct.' if is_correct else 'incorrect'}"
 
         # Include the correct answer only when the user's answer is incorrect
         if not is_correct:
-            result_string += f", the correct answer was: {question[1]}"
+            result_string += (
+                f", the correct answer was: {question[1]}.\n(You chose {answer}.)"
+            )
 
         result_string += "\n"
 
         # Display the accumulated results to the user
-        messagebox.showinfo("Question and Result:", result_string)
+        messagebox.showinfo("Question and Result", result_string)
 
 
 # Create and pack widgets
