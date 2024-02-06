@@ -4,6 +4,7 @@ import sqlite3
 
 # Create the main Tkinter window
 root = tk.Tk()
+root.geometry("200x100")
 root.title("Quiz App")
 
 # Database connection
@@ -15,9 +16,6 @@ cursor = conn.cursor()
 def start_quiz():
     # Get the username
     username = username_entry.get()
-
-    # Close the name entry window
-    root.destroy()
 
     # Insert the username into the User table
     cursor.execute("INSERT INTO quiz_app_user (username) VALUES (?)", (username,))
@@ -31,10 +29,30 @@ def start_quiz():
     cursor.execute("SELECT * FROM quiz_app_question")
     questions = cursor.fetchall()
 
+    # Close the name entry window
+    root.destroy()
+
     # Iterate through the questions
     for question in questions:
         # Display the question in a popup window
         answer = simpledialog.askstring("Question", question[-1])
+
+        # Check if the user canceled the dialog
+        if answer is None:
+            messagebox.showinfo("Quiz App", "Quiz cancelled.")
+            conn.close()
+            return
+
+        # Check if the answer is not empty and is one of A, B, C, or D
+        if answer.upper() not in ["A", "B", "C", "D"]:
+            messagebox.showwarning(
+                "Invalid Answer", "Please choose one of the options A, B, C, or D."
+            )
+            conn.close()
+            return
+
+        # Convert the answer to uppercase
+        answer = answer.upper()
 
         # Insert the user's answer into the UserAnswer table
         cursor.execute(
@@ -73,6 +91,8 @@ def start_quiz():
         # Display the accumulated results to the user
         messagebox.showinfo("Question and Result", result_string)
 
+    conn.close()
+
 
 # Create and pack widgets
 username_label = tk.Label(root, text="Enter your username:")
@@ -86,6 +106,3 @@ start_button.pack()
 
 # Start the Tkinter event loop
 root.mainloop()
-
-# Close the database connection when the program ends
-conn.close()
