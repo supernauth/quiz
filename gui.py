@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 import sqlite3
+from PIL import Image, ImageTk
 
 # Create the main Tkinter window
 root = tk.Tk()
+
 root.geometry("250x125")
 root.title("Quiz App")
 root.configure(bg="#e3e5e7")
@@ -27,7 +29,7 @@ def start_quiz():
     cursor.execute("SELECT id FROM quiz_app_user WHERE username = ?", (username,))
     user_id = cursor.fetchone()[0]
 
-    # Retrieve questions from the Question table
+    # Get questions from the Question table
     cursor.execute("SELECT * FROM quiz_app_question")
     questions = cursor.fetchall()
 
@@ -44,15 +46,15 @@ def start_quiz():
             # Display the question in a popup window
             answer = simpledialog.askstring("Question", question[-1])
 
-            # Check if the user canceled the dialog
+            # Check if the the dialog was canceled
             if answer is None:
                 messagebox.showinfo("Quiz App", "Quiz cancelled.")
                 conn.close()
                 return
 
-            # Check if the answer is not empty and is one of A, B, C, or D
+            # Checking the answer
             if answer.upper() in ["A", "B", "C", "D"]:
-                break  # Break the loop if a valid answer is provided
+                break
 
             # Inform the user about the invalid answer
             messagebox.showwarning(
