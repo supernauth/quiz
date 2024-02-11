@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 import sqlite3
-from PIL import Image, ImageTk
 
 # Create the main Tkinter window
 root = tk.Tk()
