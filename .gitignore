@@ -7,3 +7,4 @@ test/__init__.py
 test/test_gui.py
 main.py
 gui.py
+.coverage
