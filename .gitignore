@@ -1,3 +1,9 @@
 proba.html
 .vscode/settings.json
 gui_v2.py
+quiz/__pycache__/unittest.cpython-312.pyc
+quiz/quiz_app/__pycache__/tests.cpython-312.pyc
+test/__init__.py
+test/test_gui.py
+main.py
+gui.py
